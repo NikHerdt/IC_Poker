@@ -29,6 +29,9 @@ class Table {
     this.wentToShowdown = false;
     this.sidePots = [];
     this.history = [];
+    this.isPaused = false;
+    this.isFirstHand = true;
+    this.waitingForStart = false;
   }
 
   initSeats(maxPlayers) {
@@ -148,6 +151,10 @@ class Table {
       this.updateHistory();
       this.setBlinds();
       this.handOver = false;
+      // Mark that first hand has started
+      if (this.isFirstHand) {
+        this.isFirstHand = false;
+      }
     }
 
     this.updateHistory();

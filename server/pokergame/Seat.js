@@ -36,8 +36,8 @@ class Seat {
       this.bet = allInAmount;
       this.stack = 0;
     } else {
-      this.bet = amount;
-      this.stack -= reRaiseAmount;
+    this.bet = amount;
+    this.stack -= reRaiseAmount;
     }
     this.turn = false;
     this.lastAction = RAISE;

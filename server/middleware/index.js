@@ -37,8 +37,8 @@ const configureMiddleware = (app) => {
   // Add rate limit to API (100 requests per 10 mins)
   // Skip rate limiting for OPTIONS requests (CORS preflight) and allow all origins for CORS
   const rateLimiter = expressRateLimit({
-    windowMs: 10 * 60 * 1000,
-    max: 100,
+      windowMs: 10 * 60 * 1000,
+      max: 100,
     standardHeaders: true,
     legacyHeaders: false,
     skip: (req) => {

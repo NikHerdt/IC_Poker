@@ -35,6 +35,9 @@ const Play = ({ history, location }) => {
     check,
     call,
     raise,
+    startHand,
+    pauseGame,
+    resumeGame,
   } = useContext(gameContext);
   const { getLocalizedString } = useContext(contentContext);
 
@@ -89,6 +92,40 @@ const Play = ({ history, location }) => {
                 {getLocalizedString('game_leave-table-btn')}
               </Button>
             </PositionedUISlot>
+            {/* Start button for first hand */}
+            {currentTable && currentTable.waitingForStart && currentTable.isFirstHand && (
+              <PositionedUISlot
+                bottom="2vh"
+                left="50%"
+                scale="0.65"
+                style={{ zIndex: '50', transform: 'translateX(-50%)' }}
+                origin="bottom center"
+              >
+                <Button small primary onClick={() => startHand()}>
+                  Start Game
+                </Button>
+              </PositionedUISlot>
+            )}
+            {/* Pause/Resume button - show when game is active */}
+            {currentTable && !currentTable.handOver && (
+              <PositionedUISlot
+                top="2vh"
+                left="1.5rem"
+                scale="0.65"
+                style={{ zIndex: '50' }}
+                origin="top left"
+              >
+                {currentTable.isPaused ? (
+                  <Button small primary onClick={() => resumeGame()}>
+                    Resume
+                  </Button>
+                ) : (
+                  <Button small secondary onClick={() => pauseGame()}>
+                    Pause
+                  </Button>
+                )}
+              </PositionedUISlot>
+            )}
             {!isPlayerSeated && (
               <PositionedUISlot
                 bottom="1.5vh"
@@ -139,71 +176,91 @@ const Play = ({ history, location }) => {
           <PokerTable />
           {currentTable && (
             <>
+              {(() => {
+                // Only show seats that are occupied or available for joining
+                const seatsToShow = [];
+                const maxPlayers = currentTable.maxPlayers || 12;
+                
+                // Always show occupied seats
+                for (let i = 1; i <= maxPlayers; i++) {
+                  if (currentTable.seats && currentTable.seats[i]) {
+                    seatsToShow.push(i);
+                  }
+                }
+                
+                // If player isn't seated, show a few empty seats for joining
+                // Show empty seats adjacent to occupied ones, or first few if table is empty
+                if (!isPlayerSeated) {
+                  const occupiedSeats = seatsToShow;
+                  const emptySeats = [];
+                  
+                  for (let i = 1; i <= maxPlayers; i++) {
+                    if (!currentTable.seats || !currentTable.seats[i]) {
+                      emptySeats.push(i);
+                    }
+                  }
+                  
+                  if (occupiedSeats.length === 0) {
+                    // Table is empty - show first 3 seats for joining
+                    seatsToShow.push(...emptySeats.slice(0, 3));
+                  } else {
+                    // Show 2-3 empty seats near occupied ones
+                    const nearbyEmpty = emptySeats.filter(seatNum => {
+                      return occupiedSeats.some(occupied => {
+                        const diff = Math.abs(seatNum - occupied);
+                        const wrapDiff = Math.min(
+                          Math.abs(seatNum - occupied - maxPlayers),
+                          Math.abs(seatNum - occupied + maxPlayers)
+                        );
+                        return diff <= 2 || wrapDiff <= 2;
+                      });
+                    });
+                    seatsToShow.push(...nearbyEmpty.slice(0, 3));
+                  }
+                }
+                
+                return seatsToShow.map((seatNumber) => {
+                  const maxPlayers = currentTable.maxPlayers || 12;
+                  // Calculate position for each seat in a circle
+                  // Start from top (12 o'clock) and go clockwise
+                  const angle = ((seatNumber - 1) * (360 / maxPlayers) - 90) * (Math.PI / 180);
+                  const radius = 42; // Distance from center in percentage
+                  
+                  // Calculate position relative to center (50%, 50%)
+                  const x = radius * Math.cos(angle);
+                  const y = radius * Math.sin(angle);
+                  
+                  // Convert to top/left/right/bottom positioning
+                  const leftPercent = 50 + x;
+                  const topPercent = 50 + y;
+                  
+                  // Determine origin based on quadrant
+                  let origin = 'center center';
+                  if (y < -10) origin = 'top center';
+                  else if (y > 10) origin = 'bottom center';
+                  else if (x < -10) origin = 'center left';
+                  else if (x > 10) origin = 'center right';
+                  
+                  return (
               <PositionedUISlot
-                top="-5%"
-                left="0"
+                      key={seatNumber}
+                      left={`${leftPercent}%`}
+                      top={`${topPercent}%`}
                 scale="0.55"
-                origin="top left"
+                      origin={origin}
+                      style={{ transform: 'translate(-50%, -50%)' }}
               >
                 <Seat
-                  seatNumber={1}
+                        seatNumber={seatNumber}
                   currentTable={currentTable}
                   isPlayerSeated={isPlayerSeated}
                   sitDown={sitDown}
-                  isQuickGame={isQuickGame}
+                        isQuickGame={isQuickGame}
                 />
               </PositionedUISlot>
-              <PositionedUISlot top="-5%" scale="0.55" origin="top center">
-                <Seat
-                  seatNumber={2}
-                  currentTable={currentTable}
-                  isPlayerSeated={isPlayerSeated}
-                  sitDown={sitDown}
-                  isQuickGame={isQuickGame}
-                />
-              </PositionedUISlot>
-              <PositionedUISlot
-                top="-5%"
-                right="2%"
-                scale="0.55"
-                origin="top right"
-              >
-                <Seat
-                  seatNumber={3}
-                  currentTable={currentTable}
-                  isPlayerSeated={isPlayerSeated}
-                  sitDown={sitDown}
-                  isQuickGame={isQuickGame}
-                />
-              </PositionedUISlot>
-              <PositionedUISlot
-                bottom="15%"
-                right="2%"
-                scale="0.55"
-                origin="bottom right"
-              >
-                <Seat
-                  seatNumber={4}
-                  currentTable={currentTable}
-                  isPlayerSeated={isPlayerSeated}
-                  sitDown={sitDown}
-                  isQuickGame={isQuickGame}
-                />
-              </PositionedUISlot>
-              <PositionedUISlot
-                bottom="15%"
-                left="0"
-                scale="0.55"
-                origin="bottom left"
-              >
-                <Seat
-                  seatNumber={5}
-                  currentTable={currentTable}
-                  isPlayerSeated={isPlayerSeated}
-                  sitDown={sitDown}
-                  isQuickGame={isQuickGame}
-                />
-              </PositionedUISlot>
+                  );
+                });
+              })()}
               <PositionedUISlot
                 width="100%"
                 origin="center center"

@@ -24,6 +24,9 @@ const {
   DISCONNECT,
   TABLE_UPDATED,
   WINNER,
+  START_HAND,
+  PAUSE_GAME,
+  RESUME_GAME,
 } = require('../pokergame/actions');
 const config = require('../config');
 
@@ -33,8 +36,8 @@ const config = require('../config');
 // Table 2: Quick game table with $0.10/$0.20 blinds (limit 20) for $10 buy-ins
 // With limit 20: minBet = 20/200 = 0.10, so blinds = $0.10/$0.20
 const tables = {
-  1: new Table(1, 'Table 1', 10000),  // Regular table: $50/$100 blinds
-  2: new Table(2, 'Quick Game', 20), // Quick game: $0.10/$0.20 blinds, 50 BB for $10 buy-in
+  1: new Table(1, 'Table 1', 10000, 12),  // Regular table: $50/$100 blinds, max 12 players
+  2: new Table(2, 'Quick Game', 20, 12), // Quick game: $0.10/$0.20 blinds, max 12 players
 };
 const players = {};
 
@@ -198,8 +201,13 @@ const init = (socket, io) => {
       let message = `${player.name} sat down in Seat ${seatId}`;
 
       broadcastToTable(table, message);
-      if (table.activePlayers().length === 2) {
+      // Don't auto-start first hand - wait for start button
+      if (table.activePlayers().length === 2 && !table.isFirstHand) {
         initNewHand(table);
+      } else if (table.activePlayers().length === 2 && table.isFirstHand) {
+        // First hand - set waiting state
+        table.waitingForStart = true;
+        broadcastToTable(table, '--- Waiting for start ---');
       }
     }
   });
@@ -247,8 +255,44 @@ const init = (socket, io) => {
     seat.sittingOut = false;
 
     broadcastToTable(table);
-    if (table.handOver && table.activePlayers().length === 2) {
+    if (table.handOver && table.activePlayers().length === 2 && !table.isFirstHand) {
       initNewHand(table);
+    } else if (table.handOver && table.activePlayers().length === 2 && table.isFirstHand) {
+      table.waitingForStart = true;
+      broadcastToTable(table, '--- Waiting for start ---');
+    }
+  });
+
+  socket.on(START_HAND, (tableId) => {
+    const table = tables[tableId];
+    if (table && table.waitingForStart && table.isFirstHand) {
+      table.waitingForStart = false;
+      // Start the hand immediately without waiting
+      if (table.activePlayers().length > 1) {
+        broadcastToTable(table, '---New hand starting in 5 seconds---');
+        setTimeout(() => {
+          table.clearWinMessages();
+          table.startHand();
+          table.isFirstHand = false;
+          broadcastToTable(table, '--- New hand started ---');
+        }, 5000);
+      }
+    }
+  });
+
+  socket.on(PAUSE_GAME, (tableId) => {
+    const table = tables[tableId];
+    if (table) {
+      table.isPaused = true;
+      broadcastToTable(table, '--- Game paused ---');
+    }
+  });
+
+  socket.on(RESUME_GAME, (tableId) => {
+    const table = tables[tableId];
+    if (table) {
+      table.isPaused = false;
+      broadcastToTable(table, '--- Game resumed ---');
     }
   });
 
@@ -305,11 +349,17 @@ const init = (socket, io) => {
 
   function initNewHand(table) {
     if (table.activePlayers().length > 1) {
+      if (table.isFirstHand && table.waitingForStart) {
+        // First hand - don't auto-start, wait for START_HAND action
+        return;
+      }
       broadcastToTable(table, '---New hand starting in 5 seconds---');
     }
     setTimeout(() => {
       table.clearWinMessages();
       table.startHand();
+      table.isFirstHand = false;
+      table.waitingForStart = false;
       broadcastToTable(table, '--- New hand started ---');
     }, 5000);
   }

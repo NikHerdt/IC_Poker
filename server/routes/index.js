@@ -3,7 +3,7 @@ const configureRoutes = (app) => {
   app.use('/api/users', require('./api/users'));
   app.use('/api/mails', require('./api/mails'));
   app.use('/', (req, res) => {
-    res.status(200).send('Welcome to Vintage Poker!');
+    res.status(200).send('Welcome to Hawkeye Poker!');
   });
 };
 

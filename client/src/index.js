@@ -19,7 +19,7 @@ if (
   // Show maintenance mode content if proper env vars are set
   const template = `
     <div style="width: 100%; padding: 0 1.5rem; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; overflow: hidden; background-color: hsl(43, 40%, 86%);">
-      <img style="width: 100%; max-width: 320px;" src=${logoWithText} alt="Vintage Poker">
+      <img style="width: 100%; max-width: 320px;" src=${logoWithText} alt="Hawkeye Poker">
       <p style="font-size: 1.5rem; font-family: 'Roboto', sans-serif; color: hsl(36, 71%, 3%); text-align: center; margin-top: 3rem; padding: 1rem 2rem; background-color: hsl(49, 63%, 92%); border-radius: 2rem;">The website is currently in maintenance mode.</p>
     </div>
   `;

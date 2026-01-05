@@ -19,3 +19,6 @@ exports.STAND_UP = 'STAND_UP';
 exports.SITTING_OUT = 'SITTING_OUT';
 exports.SITTING_IN = 'SITTING_IN';
 exports.DISCONNECT = 'DISCONNECT';
+exports.START_HAND = 'START_HAND';
+exports.PAUSE_GAME = 'PAUSE_GAME';
+exports.RESUME_GAME = 'RESUME_GAME';

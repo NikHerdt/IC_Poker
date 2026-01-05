@@ -45,7 +45,7 @@ const ContentProvider = ({ children }) => {
     });
     
     if (isContentfulConfigured && contentfulClient) {
-      fetchContent();
+    fetchContent();
     } else {
       // Use fallback strings when Contentful is not configured
       console.log('ContentProvider: Using fallback strings, lang =', lang);
@@ -61,16 +61,16 @@ const ContentProvider = ({ children }) => {
     }
     
     Promise.all([
-      contentfulClient
-        .getEntries({ content_type: 'key', locale: lang })
-        .then((res) => {
-          let localizedStrings = {};
+    contentfulClient
+      .getEntries({ content_type: 'key', locale: lang })
+      .then((res) => {
+        let localizedStrings = {};
 
-          res.items.forEach(
-            (item) =>
-              (localizedStrings[item.fields.keyName] =
-                item.fields.value.fields.value),
-          );
+        res.items.forEach(
+          (item) =>
+            (localizedStrings[item.fields.keyName] =
+              item.fields.value.fields.value),
+        );
 
           return localizedStrings;
         })
@@ -79,12 +79,12 @@ const ContentProvider = ({ children }) => {
           const strings = {};
           Object.keys(fallbackStrings).forEach((key) => {
             strings[key] = fallbackStrings[key][lang] || fallbackStrings[key].en || key;
-          });
+      });
           return strings;
         }),
-      contentfulClient
-        .getEntries({ content_type: 'staticPage', locale: lang })
-        .then((res) => {
+    contentfulClient
+      .getEntries({ content_type: 'staticPage', locale: lang })
+      .then((res) => {
           return res.items.map((item) => ({
             slug: item.fields.slug,
             title: item.fields.title,
@@ -99,7 +99,7 @@ const ContentProvider = ({ children }) => {
       setLocalizedStrings(localizedStrings);
       setStaticPages(staticPages);
       setIsLoading(false);
-    });
+      });
   };
 
   const getLocalizedString = (key) =>

@@ -19,25 +19,25 @@ const sendEmail = async (sendToEmail, template) => {
   const { subject, text, html } = template;
 
   try {
-    const transporter = nodemailer.createTransport({
-      host: config.SMTP_HOST,
-      port: config.SMTP_PORT,
-      auth: {
-        user: config.SMTP_USER,
-        pass: config.SMTP_PW,
-      },
-    });
+  const transporter = nodemailer.createTransport({
+    host: config.SMTP_HOST,
+    port: config.SMTP_PORT,
+    auth: {
+      user: config.SMTP_USER,
+      pass: config.SMTP_PW,
+    },
+  });
 
-    const message = {
-      from: `${config.FROM_NAME} <${config.FROM_EMAIL}>`,
-      to: sendToEmail,
-      subject,
-      text,
-      html,
-    };
+  const message = {
+    from: `${config.FROM_NAME} <${config.FROM_EMAIL}>`,
+    to: sendToEmail,
+    subject,
+    text,
+    html,
+  };
 
-    const info = await transporter.sendMail(message);
-    console.log('Message sent: %s', info.messageId);
+  const info = await transporter.sendMail(message);
+  console.log('Message sent: %s', info.messageId);
   } catch (error) {
     console.error('Failed to send email:', error.message);
     // Don't throw - email failure shouldn't break registration

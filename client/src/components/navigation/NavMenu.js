@@ -7,10 +7,8 @@ import ColoredText from '../typography/ColoredText';
 import { Link } from 'react-router-dom';
 // import { Select } from '../forms/Select';
 import lobbyIcon from '../../assets/icons/lobby-icon.svg';
-import newsIcon from '../../assets/icons/news-icon.svg';
 import userIcon from '../../assets/icons/user-icon.svg';
 import contentContext from '../../context/content/contentContext';
-import Markdown from 'react-remarkable';
 import socketContext from '../../context/websocket/socketContext';
 import globalContext from '../../context/global/globalContext';
 
@@ -127,19 +125,6 @@ const NavMenu = ({
   const { getLocalizedString } = useContext(contentContext);
   const { cleanUp } = useContext(socketContext);
 
-  const openShopModal = () =>
-    openModal(
-      () => (
-        <Markdown>
-          <Text textAlign="center">
-            {getLocalizedString('shop-coming_soon-modal_text')}
-          </Text>
-        </Markdown>
-      ),
-      getLocalizedString('shop-coming_soon-modal_heading'),
-      getLocalizedString('shop-coming_soon-modal_btn_text'),
-    );
-
   return (
     <NavMenuWrapper
       id="wrapper"
@@ -164,11 +149,6 @@ const NavMenu = ({
               Online: <ColoredText>{players.length}</ColoredText>
             </SalutationText>
           )}
-          <HorizontalWrapper>
-            <Button onClick={openShopModal} small primary>
-              {getLocalizedString('shop-coming_soon-modal_heading')}
-            </Button>
-          </HorizontalWrapper>
           {/* <HorizontalWrapper>
             <Select value={lang} onChange={(e) => setLang(e.target.value)}>
               <option value="en">English</option>
@@ -203,21 +183,6 @@ const NavMenu = ({
             <img
               src={userIcon}
               alt="Dashboard"
-              width="25"
-              style={{ width: '25px' }}
-            />
-          </MenuItem>
-          <MenuItem
-            as={Link}
-            to="/news"
-            onClick={() => {
-              onClose();
-            }}
-          >
-            {getLocalizedString('navmenu-menu_item-news_txt')}
-            <img
-              src={newsIcon}
-              alt="News"
               width="25"
               style={{ width: '25px' }}
             />

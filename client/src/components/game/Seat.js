@@ -46,53 +46,53 @@ export const Seat = ({ currentTable, seatNumber, isPlayerSeated, sitDown, isQuic
       seat.sittingOut
     ) {
       // Show rebuy modal - user picks amount
-      openModal(
-        () => (
-          <Form
-            onSubmit={(e) => {
-              e.preventDefault();
+        openModal(
+          () => (
+            <Form
+              onSubmit={(e) => {
+                e.preventDefault();
 
-              const amount = +document.getElementById('amount').value;
+                const amount = +document.getElementById('amount').value;
 
-              if (
-                amount &&
+                if (
+                  amount &&
                 amount > 0 &&
-                amount <= maxBuyin
-              ) {
+                  amount <= maxBuyin
+                ) {
                 rebuy(currentTable.id, seatNumber, parseFloat(amount));
-                closeModal();
-              }
-            }}
-          >
-            <FormGroup>
-              <Input
-                id="amount"
-                type="number"
+                  closeModal();
+                }
+              }}
+            >
+              <FormGroup>
+                <Input
+                  id="amount"
+                  type="number"
                 min="0.01"
                 step="0.01"
                 max={maxBuyin}
                 defaultValue={defaultBuyIn}
                 placeholder={`Enter amount (max: $${maxBuyin.toFixed(2)})`}
-              />
-            </FormGroup>
-            <ButtonGroup>
-              <Button primary type="submit" fullWidth>
-                {getLocalizedString('game_rebuy-modal_confirm')}
-              </Button>
-            </ButtonGroup>
-          </Form>
-        ),
-        getLocalizedString('game_rebuy-modal_header'),
-        getLocalizedString('game_rebuy-modal_cancel'),
-        () => {
-          standUp();
-          closeModal();
-        },
-        () => {
-          standUp();
-          closeModal();
-        },
-      );
+                />
+              </FormGroup>
+              <ButtonGroup>
+                <Button primary type="submit" fullWidth>
+                  {getLocalizedString('game_rebuy-modal_confirm')}
+                </Button>
+              </ButtonGroup>
+            </Form>
+          ),
+          getLocalizedString('game_rebuy-modal_header'),
+          getLocalizedString('game_rebuy-modal_cancel'),
+          () => {
+            standUp();
+            closeModal();
+          },
+          () => {
+            standUp();
+            closeModal();
+          },
+        );
     }
     // eslint-disable-next-line
   }, [currentTable]);
@@ -114,49 +114,49 @@ export const Seat = ({ currentTable, seatNumber, isPlayerSeated, sitDown, isQuic
                   );
                 } else {
                   // Regular table: show buy-in modal
-                  openModal(
-                    () => (
-                      <Form
-                        onSubmit={(e) => {
-                          e.preventDefault();
+                openModal(
+                  () => (
+                    <Form
+                      onSubmit={(e) => {
+                        e.preventDefault();
 
-                          const amount = +document.getElementById('amount').value;
+                        const amount = +document.getElementById('amount').value;
 
-                          if (
-                            amount &&
+                        if (
+                          amount &&
                             amount > 0 &&
-                            amount <= maxBuyin
-                          ) {
-                            sitDown(
-                              currentTable.id,
-                              seatNumber,
+                          amount <= maxBuyin
+                        ) {
+                          sitDown(
+                            currentTable.id,
+                            seatNumber,
                               parseFloat(amount),
-                            );
-                            closeModal();
-                          }
-                        }}
-                      >
-                        <FormGroup>
-                          <Input
-                            id="amount"
-                            type="number"
+                          );
+                          closeModal();
+                        }
+                      }}
+                    >
+                      <FormGroup>
+                        <Input
+                          id="amount"
+                          type="number"
                             min="0.01"
                             step="0.01"
                             max={maxBuyin}
                             defaultValue={defaultBuyIn}
                             placeholder={`Enter amount (max: $${maxBuyin.toFixed(2)})`}
-                          />
-                        </FormGroup>
-                        <ButtonGroup>
-                          <Button primary type="submit" fullWidth>
-                            {getLocalizedString('game_buyin-modal_confirm')}
-                          </Button>
-                        </ButtonGroup>
-                      </Form>
-                    ),
-                    getLocalizedString('game_buyin-modal_header'),
-                    getLocalizedString('game_buyin-modal_cancel'),
-                  );
+                        />
+                      </FormGroup>
+                      <ButtonGroup>
+                        <Button primary type="submit" fullWidth>
+                          {getLocalizedString('game_buyin-modal_confirm')}
+                        </Button>
+                      </ButtonGroup>
+                    </Form>
+                  ),
+                  getLocalizedString('game_buyin-modal_header'),
+                  getLocalizedString('game_buyin-modal_cancel'),
+                );
                 }
               }}
             >

@@ -13,6 +13,9 @@ import {
   TABLE_JOINED,
   TABLE_LEFT,
   TABLE_UPDATED,
+  START_HAND,
+  PAUSE_GAME,
+  RESUME_GAME,
 } from '../../pokergame/actions';
 import authContext from '../auth/authContext';
 import socketContext from '../websocket/socketContext';
@@ -43,15 +46,25 @@ const GameState = ({ history, children }) => {
   }, [currentTable]);
 
   useEffect(() => {
-    if (turn && !turnTimeOutHandle) {
+    // Check if game is paused before starting timer
+    const isPaused = currentTableRef.current?.isPaused || false;
+    
+    // Clear timer if paused or not player's turn
+    if (isPaused || !turn) {
+      if (turnTimeOutHandle) {
+        clearTimeout(turnTimeOutHandle);
+        setHandle(null);
+      }
+      return;
+    }
+    
+    // Start timer only if it's player's turn and game is not paused
+    if (turn && !turnTimeOutHandle && !isPaused) {
       const handle = setTimeout(fold, 15000);
       setHandle(handle);
-    } else {
-      turnTimeOutHandle && clearTimeout(turnTimeOutHandle);
-      turnTimeOutHandle && setHandle(null);
     }
     // eslint-disable-next-line
-  }, [turn]);
+  }, [turn, currentTable]);
 
   useEffect(() => {
     if (socket) {
@@ -142,6 +155,24 @@ const GameState = ({ history, children }) => {
       socket.emit(RAISE, { tableId: currentTableRef.current.id, amount });
   };
 
+  const startHand = () => {
+    currentTableRef &&
+      currentTableRef.current &&
+      socket.emit(START_HAND, currentTableRef.current.id);
+  };
+
+  const pauseGame = () => {
+    currentTableRef &&
+      currentTableRef.current &&
+      socket.emit(PAUSE_GAME, currentTableRef.current.id);
+  };
+
+  const resumeGame = () => {
+    currentTableRef &&
+      currentTableRef.current &&
+      socket.emit(RESUME_GAME, currentTableRef.current.id);
+  };
+
   return (
     <GameContext.Provider
       value={{
@@ -159,6 +190,9 @@ const GameState = ({ history, children }) => {
         call,
         raise,
         rebuy,
+        startHand,
+        pauseGame,
+        resumeGame,
       }}
     >
       {children}

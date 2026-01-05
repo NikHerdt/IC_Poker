@@ -16,16 +16,16 @@ export const BetSlider = ({ currentTable, seatId, bet, setBet }) => {
   const step = minBet >= 1 ? 1 : minBet || 0.01;
 
   return (
-    <BetSliderWrapper>
-      <BetSliderInput
-        type="range"
-        style={{ width: '100%' }}
+  <BetSliderWrapper>
+    <BetSliderInput
+      type="range"
+      style={{ width: '100%' }}
         step={step}
         min={min}
         max={max}
-        value={bet}
-        onChange={(e) => setBet(+e.target.value)}
-      />
-    </BetSliderWrapper>
-  );
+      value={bet}
+      onChange={(e) => setBet(+e.target.value)}
+    />
+  </BetSliderWrapper>
+);
 };

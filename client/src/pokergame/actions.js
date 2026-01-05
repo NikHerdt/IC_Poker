@@ -19,3 +19,6 @@ export const STAND_UP = 'STAND_UP';
 export const SITTING_OUT = 'SITTING_OUT';
 export const SITTING_IN = 'SITTING_IN';
 export const DISCONNECT = 'DISCONNECT';
+export const START_HAND = 'START_HAND';
+export const PAUSE_GAME = 'PAUSE_GAME';
+export const RESUME_GAME = 'RESUME_GAME';
