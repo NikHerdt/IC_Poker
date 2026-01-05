@@ -3,12 +3,9 @@ import Container from '../components/layout/Container';
 import Heading from '../components/typography/Heading';
 import PropTypes from 'prop-types';
 import ColoredText from '../components/typography/ColoredText';
-import jackImg from '../assets/img/jack-rounded-img@2x.png';
 import kingImg from '../assets/img/king-rounded-img@2x.png';
-import queenImg from '../assets/img/queen-rounded-img@2x.png';
 import queen2Img from '../assets/img/queen2-rounded-img@2x.png';
 import styled from 'styled-components';
-import Text from '../components/typography/Text';
 import { withRouter } from 'react-router-dom';
 import useScrollToTopOnPageLoad from '../hooks/useScrollToTopOnPageLoad';
 import globalContext from '../context/global/globalContext';
@@ -31,25 +28,25 @@ const MainMenuWrapper = styled.div`
   justify-content: center;
   align-content: center;
   grid-template-columns: repeat(2, minmax(250px, auto));
-  grid-template-rows: repeat(2, minmax(250px, auto));
+  grid-template-rows: repeat(1, minmax(250px, auto));
   grid-gap: 2rem;
   max-width: 600px;
 
   @media screen and (max-width: 900px) and (max-height: 450px) and (orientation: landscape) {
-    grid-template-columns: repeat(4, 140px);
+    grid-template-columns: repeat(2, 140px);
     grid-template-rows: repeat(1, minmax(140px, auto));
     grid-gap: 1rem;
   }
 
   @media screen and (max-width: 590px) and (max-height: 420px) and (orientation: landscape) {
-    grid-template-columns: repeat(4, 120px);
+    grid-template-columns: repeat(2, 120px);
     grid-template-rows: repeat(1, minmax(120px, auto));
     grid-gap: 1rem;
   }
 
   @media screen and (max-width: 468px) {
     grid-template-columns: repeat(1, auto);
-    grid-template-rows: repeat(4, auto);
+    grid-template-rows: repeat(2, auto);
     grid-gap: 1rem;
   }
 `;
@@ -143,30 +140,6 @@ const MainPage = ({ history }) => {
           <img src={queen2Img} alt="Quick Game" />
           <Heading as="h3" headingClass="h5" textCentered>
             {getLocalizedString('main_page-quick_game').toUpperCase()}
-          </Heading>
-        </MainMenuCard>
-        <MainMenuCard
-          onClick={() => {
-            openModal(
-              () => (
-                <Text textAlign="center">
-                  {getLocalizedString('main_page-modal_text')}
-                </Text>
-              ),
-              getLocalizedString('main_page-modal_heading'),
-              getLocalizedString('main_page-modal_button_text'),
-            );
-          }}
-        >
-          <img src={jackImg} alt="Shop" />
-          <Heading as="h3" headingClass="h5" textCentered>
-            {getLocalizedString('main_page-open_shop').toUpperCase()}
-          </Heading>
-        </MainMenuCard>
-        <MainMenuCard onClick={() => history.push('/game-rules')}>
-          <img src={queenImg} alt="Rules" />
-          <Heading as="h3" headingClass="h5" textCentered>
-            {getLocalizedString('main_page-open_rules').toUpperCase()}
           </Heading>
         </MainMenuCard>
       </MainMenuWrapper>

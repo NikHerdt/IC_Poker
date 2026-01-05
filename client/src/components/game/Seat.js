@@ -29,7 +29,9 @@ export const Seat = ({ currentTable, seatNumber, isPlayerSeated, sitDown, isQuic
 
   const seat = currentTable.seats[seatNumber];
   const maxBuyin = currentTable.limit;
-  const minBuyIn = currentTable.minBet * 2 * 10;
+  // For regular tables, no minimum buy-in - just needs to be > 0
+  // Default to big blind amount as a reasonable starting point
+  const defaultBuyIn = isQuickGame ? 10 : (currentTable.minBet * 2 || 1);
   
   // Quick game auto buy-in amount ($10)
   const QUICK_GAME_BUYIN = 10;
@@ -54,10 +56,10 @@ export const Seat = ({ currentTable, seatNumber, isPlayerSeated, sitDown, isQuic
 
               if (
                 amount &&
-                amount >= minBuyIn &&
+                amount > 0 &&
                 amount <= maxBuyin
               ) {
-                rebuy(currentTable.id, seatNumber, parseInt(amount));
+                rebuy(currentTable.id, seatNumber, parseFloat(amount));
                 closeModal();
               }
             }}
@@ -66,9 +68,11 @@ export const Seat = ({ currentTable, seatNumber, isPlayerSeated, sitDown, isQuic
               <Input
                 id="amount"
                 type="number"
-                min={minBuyIn}
+                min="0.01"
+                step="0.01"
                 max={maxBuyin}
-                defaultValue={minBuyIn}
+                defaultValue={defaultBuyIn}
+                placeholder={`Enter amount (max: $${maxBuyin.toFixed(2)})`}
               />
             </FormGroup>
             <ButtonGroup>
@@ -120,13 +124,13 @@ export const Seat = ({ currentTable, seatNumber, isPlayerSeated, sitDown, isQuic
 
                           if (
                             amount &&
-                            amount >= minBuyIn &&
+                            amount > 0 &&
                             amount <= maxBuyin
                           ) {
                             sitDown(
                               currentTable.id,
                               seatNumber,
-                              parseInt(amount),
+                              parseFloat(amount),
                             );
                             closeModal();
                           }
@@ -136,9 +140,11 @@ export const Seat = ({ currentTable, seatNumber, isPlayerSeated, sitDown, isQuic
                           <Input
                             id="amount"
                             type="number"
-                            min={minBuyIn}
+                            min="0.01"
+                            step="0.01"
                             max={maxBuyin}
-                            defaultValue={minBuyIn}
+                            defaultValue={defaultBuyIn}
+                            placeholder={`Enter amount (max: $${maxBuyin.toFixed(2)})`}
                           />
                         </FormGroup>
                         <ButtonGroup>
