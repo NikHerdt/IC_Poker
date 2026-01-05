@@ -64,9 +64,10 @@ const GameState = ({ history, children }) => {
         message && addMessage(message);
       });
 
-      socket.on(TABLE_JOINED, ({ tables, tableId }) => {
-        console.log(TABLE_JOINED, tables, tableId);
-        setCurrentTable(tables[tableId]);
+      socket.on(TABLE_JOINED, ({ tables, tableId, table }) => {
+        console.log(TABLE_JOINED, tables, tableId, table);
+        // Use the full table object if provided, otherwise fall back to tables[tableId]
+        setCurrentTable(table || tables[tableId]);
       });
 
       socket.on(TABLE_LEFT, ({ tables, tableId }) => {

@@ -6,7 +6,6 @@ import styled from 'styled-components';
 import { Link, withRouter } from 'react-router-dom';
 import Hider from '../layout/Hider';
 import Button from '../buttons/Button';
-import ChipsAmount from '../user/ChipsAmount';
 import HamburgerButton from '../buttons/HamburgerButton';
 import Spacer from '../layout/Spacer';
 import Text from '../typography/Text';
@@ -23,26 +22,12 @@ const StyledNav = styled.nav`
 
 const Navbar = ({
   loggedIn,
-  chipsAmount,
   location,
   openModal,
   openNavMenu,
   className,
 }) => {
   const { getLocalizedString } = useContext(contentContext);
-
-  const openShopModal = () =>
-    openModal(
-      () => (
-        <Markdown>
-          <Text textAlign="center">
-            {getLocalizedString('shop-coming_soon-modal_text')}
-          </Text>
-        </Markdown>
-      ),
-      getLocalizedString('shop-coming_soon-modal_heading'),
-      getLocalizedString('shop-coming_soon-modal_btn_text'),
-    );
 
   if (!loggedIn)
     return (
@@ -82,15 +67,6 @@ const Navbar = ({
             </Hider>
           </Link>
           <Spacer>
-            <ChipsAmount
-              chipsAmount={chipsAmount}
-              clickHandler={openShopModal}
-            />
-            <Hider hideOnMobile>
-              <Button to="/" primary small onClick={openShopModal}>
-                {getLocalizedString('navbar-buychips_btn')}
-              </Button>
-            </Hider>
             <HamburgerButton clickHandler={openNavMenu} />
           </Spacer>
         </Container>

@@ -22,15 +22,17 @@ import Markdown from 'react-remarkable';
 import DealerButton from '../icons/DealerButton';
 import { StyledSeat } from './StyledSeat';
 
-export const Seat = ({ currentTable, seatNumber, isPlayerSeated, sitDown }) => {
+export const Seat = ({ currentTable, seatNumber, isPlayerSeated, sitDown, isQuickGame = false }) => {
   const { openModal, closeModal } = useContext(modalContext);
-  const { chipsAmount } = useContext(globalContext);
   const { standUp, seatId, rebuy } = useContext(gameContext);
   const { getLocalizedString } = useContext(contentContext);
 
   const seat = currentTable.seats[seatNumber];
   const maxBuyin = currentTable.limit;
   const minBuyIn = currentTable.minBet * 2 * 10;
+  
+  // Quick game auto buy-in amount ($10)
+  const QUICK_GAME_BUYIN = 10;
 
   useEffect(() => {
     if (
@@ -41,56 +43,52 @@ export const Seat = ({ currentTable, seatNumber, isPlayerSeated, sitDown }) => {
       seat.stack === 0 &&
       seat.sittingOut
     ) {
-      if (chipsAmount <= minBuyIn || chipsAmount === 0) {
-        standUp();
-      } else {
-        openModal(
-          () => (
-            <Form
-              onSubmit={(e) => {
-                e.preventDefault();
+      // Show rebuy modal - user picks amount
+      openModal(
+        () => (
+          <Form
+            onSubmit={(e) => {
+              e.preventDefault();
 
-                const amount = +document.getElementById('amount').value;
+              const amount = +document.getElementById('amount').value;
 
-                if (
-                  amount &&
-                  amount >= minBuyIn &&
-                  amount <= chipsAmount &&
-                  amount <= maxBuyin
-                ) {
-                  rebuy(currentTable.id, seatNumber, parseInt(amount));
-                  closeModal();
-                }
-              }}
-            >
-              <FormGroup>
-                <Input
-                  id="amount"
-                  type="number"
-                  min={minBuyIn}
-                  max={chipsAmount <= maxBuyin ? chipsAmount : maxBuyin}
-                  defaultValue={minBuyIn}
-                />
-              </FormGroup>
-              <ButtonGroup>
-                <Button primary type="submit" fullWidth>
-                  {getLocalizedString('game_rebuy-modal_confirm')}
-                </Button>
-              </ButtonGroup>
-            </Form>
-          ),
-          getLocalizedString('game_rebuy-modal_header'),
-          getLocalizedString('game_rebuy-modal_cancel'),
-          () => {
-            standUp();
-            closeModal();
-          },
-          () => {
-            standUp();
-            closeModal();
-          },
-        );
-      }
+              if (
+                amount &&
+                amount >= minBuyIn &&
+                amount <= maxBuyin
+              ) {
+                rebuy(currentTable.id, seatNumber, parseInt(amount));
+                closeModal();
+              }
+            }}
+          >
+            <FormGroup>
+              <Input
+                id="amount"
+                type="number"
+                min={minBuyIn}
+                max={maxBuyin}
+                defaultValue={minBuyIn}
+              />
+            </FormGroup>
+            <ButtonGroup>
+              <Button primary type="submit" fullWidth>
+                {getLocalizedString('game_rebuy-modal_confirm')}
+              </Button>
+            </ButtonGroup>
+          </Form>
+        ),
+        getLocalizedString('game_rebuy-modal_header'),
+        getLocalizedString('game_rebuy-modal_cancel'),
+        () => {
+          standUp();
+          closeModal();
+        },
+        () => {
+          standUp();
+          closeModal();
+        },
+      );
     }
     // eslint-disable-next-line
   }, [currentTable]);
@@ -103,48 +101,57 @@ export const Seat = ({ currentTable, seatNumber, isPlayerSeated, sitDown }) => {
             <Button
               small
               onClick={() => {
-                openModal(
-                  () => (
-                    <Form
-                      onSubmit={(e) => {
-                        e.preventDefault();
+                if (isQuickGame) {
+                  // Quick game: auto buy-in with 10
+                  sitDown(
+                    currentTable.id,
+                    seatNumber,
+                    QUICK_GAME_BUYIN,
+                  );
+                } else {
+                  // Regular table: show buy-in modal
+                  openModal(
+                    () => (
+                      <Form
+                        onSubmit={(e) => {
+                          e.preventDefault();
 
-                        const amount = +document.getElementById('amount').value;
+                          const amount = +document.getElementById('amount').value;
 
-                        if (
-                          amount &&
-                          amount >= minBuyIn &&
-                          amount <= chipsAmount &&
-                          amount <= maxBuyin
-                        ) {
-                          sitDown(
-                            currentTable.id,
-                            seatNumber,
-                            parseInt(amount),
-                          );
-                          closeModal();
-                        }
-                      }}
-                    >
-                      <FormGroup>
-                        <Input
-                          id="amount"
-                          type="number"
-                          min={minBuyIn}
-                          max={chipsAmount <= maxBuyin ? chipsAmount : maxBuyin}
-                          defaultValue={minBuyIn}
-                        />
-                      </FormGroup>
-                      <ButtonGroup>
-                        <Button primary type="submit" fullWidth>
-                          {getLocalizedString('game_buyin-modal_confirm')}
-                        </Button>
-                      </ButtonGroup>
-                    </Form>
-                  ),
-                  getLocalizedString('game_buyin-modal_header'),
-                  getLocalizedString('game_buyin-modal_cancel'),
-                );
+                          if (
+                            amount &&
+                            amount >= minBuyIn &&
+                            amount <= maxBuyin
+                          ) {
+                            sitDown(
+                              currentTable.id,
+                              seatNumber,
+                              parseInt(amount),
+                            );
+                            closeModal();
+                          }
+                        }}
+                      >
+                        <FormGroup>
+                          <Input
+                            id="amount"
+                            type="number"
+                            min={minBuyIn}
+                            max={maxBuyin}
+                            defaultValue={minBuyIn}
+                          />
+                        </FormGroup>
+                        <ButtonGroup>
+                          <Button primary type="submit" fullWidth>
+                            {getLocalizedString('game_buyin-modal_confirm')}
+                          </Button>
+                        </ButtonGroup>
+                      </Form>
+                    ),
+                    getLocalizedString('game_buyin-modal_header'),
+                    getLocalizedString('game_buyin-modal_cancel'),
+                  );
+                }
               }}
             >
               {getLocalizedString('game_sitdown-btn')}
@@ -172,8 +179,12 @@ export const Seat = ({ currentTable, seatNumber, isPlayerSeated, sitDown }) => {
                 {seat.stack && (
                   <ColoredText secondary>
                     <PokerChip width="15" height="15" />{' '}
-                    {new Intl.NumberFormat(
+                    ${new Intl.NumberFormat(
                       document.documentElement.lang,
+                      {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      }
                     ).format(seat.stack)}
                   </ColoredText>
                 )}

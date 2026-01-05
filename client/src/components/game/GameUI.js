@@ -25,8 +25,17 @@ export const GameUI = ({
         bet={bet}
         setBet={setBet}
       />
-      <Button small onClick={() => raise(bet + currentTable.seats[seatId].bet)}>
-        {getLocalizedString('game_ui_bet')} {bet}
+      <Button 
+        small 
+        onClick={() => {
+          const seat = currentTable.seats[seatId];
+          if (seat) {
+            raise(bet + (seat.bet || 0));
+          }
+        }}
+        disabled={!currentTable.seats[seatId]}
+      >
+        {getLocalizedString('game_ui_bet')} ${bet.toFixed(2)}
       </Button>
       <Button small secondary onClick={standUp}>
         {getLocalizedString('game_ui_stand-up')}
@@ -38,8 +47,9 @@ export const GameUI = ({
         small
         secondary
         disabled={
-          currentTable.callAmount !== currentTable.seats[seatId].bet &&
-          currentTable.callAmount > 0
+          !currentTable.seats[seatId] ||
+          (currentTable.callAmount !== currentTable.seats[seatId].bet &&
+          currentTable.callAmount > 0)
         }
         onClick={check}
       >
@@ -48,28 +58,32 @@ export const GameUI = ({
       <Button
         small
         disabled={
+          !currentTable.callAmount ||
           currentTable.callAmount === 0 ||
-          currentTable.seats[seatId].bet >= currentTable.callAmount
+          (currentTable.seats[seatId] && currentTable.seats[seatId].bet >= currentTable.callAmount)
         }
         onClick={call}
       >
         {getLocalizedString('game_ui_call')}{' '}
         {currentTable.callAmount &&
+        currentTable.seats[seatId] &&
         currentTable.seats[seatId].bet < currentTable.callAmount &&
         currentTable.callAmount <= currentTable.seats[seatId].stack
-          ? currentTable.callAmount - currentTable.seats[seatId].bet
+          ? `$${(currentTable.callAmount - currentTable.seats[seatId].bet).toFixed(2)}`
           : ''}
       </Button>
       <Button
         small
-        onClick={() =>
-          raise(
-            currentTable.seats[seatId].stack + currentTable.seats[seatId].bet,
-          )
-        }
+        onClick={() => {
+          const seat = currentTable.seats[seatId];
+          if (seat) {
+            raise((seat.stack || 0) + (seat.bet || 0));
+          }
+        }}
+        disabled={!currentTable.seats[seatId]}
       >
         {getLocalizedString('game_ui_all-in')} (
-        {currentTable.seats[seatId].stack})
+        ${currentTable.seats[seatId] ? currentTable.seats[seatId].stack.toFixed(2) : '0.00'})
       </Button>
     </UIWrapper>
   );

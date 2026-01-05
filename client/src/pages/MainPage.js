@@ -133,13 +133,13 @@ const MainPage = ({ history }) => {
         <ColoredText>{userName}!</ColoredText>
       </WelcomeHeading>
       <MainMenuWrapper>
-        <MainMenuCard onClick={() => history.push('/play')}>
+        <MainMenuCard onClick={() => history.push('/play?mode=table')}>
           <img src={kingImg} alt="Join Table" />
           <Heading as="h3" headingClass="h5" textCentered>
             {getLocalizedString('main_page-join_table').toUpperCase()}
           </Heading>
         </MainMenuCard>
-        <MainMenuCard onClick={() => history.push('/play')}>
+        <MainMenuCard onClick={() => history.push('/play?mode=quick')}>
           <img src={queen2Img} alt="Quick Game" />
           <Heading as="h3" headingClass="h5" textCentered>
             {getLocalizedString('main_page-quick_game').toUpperCase()}

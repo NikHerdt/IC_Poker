@@ -36,9 +36,10 @@ const ChipsAmountPill = ({ chipsAmount }) => {
         disabled
         type="text"
         size={10}
-        value={new Intl.NumberFormat(document.documentElement.lang).format(
-          chipsAmount,
-        )}
+        value={`$${new Intl.NumberFormat(document.documentElement.lang, {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        }).format(chipsAmount)}`}
         name="chipsAmount"
       />
     </Wrapper>

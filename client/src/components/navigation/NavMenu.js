@@ -4,7 +4,6 @@ import CloseButton from '../buttons/CloseButton';
 import Button from '../buttons/Button';
 import Text from '../typography/Text';
 import ColoredText from '../typography/ColoredText';
-import ChipsAmount from '../user/ChipsAmount';
 import { Link } from 'react-router-dom';
 // import { Select } from '../forms/Select';
 import lobbyIcon from '../../assets/icons/lobby-icon.svg';
@@ -120,7 +119,6 @@ const NavMenu = ({
   onClose,
   logout,
   userName,
-  chipsAmount,
   openModal,
   // lang,
   // setLang,
@@ -167,10 +165,6 @@ const NavMenu = ({
             </SalutationText>
           )}
           <HorizontalWrapper>
-            <ChipsAmount
-              chipsAmount={chipsAmount}
-              clickHandler={openShopModal}
-            />
             <Button onClick={openShopModal} small primary>
               {getLocalizedString('shop-coming_soon-modal_heading')}
             </Button>

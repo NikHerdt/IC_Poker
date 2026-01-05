@@ -11,7 +11,6 @@ const useAuth = () => {
     setIsLoading,
     setUserName,
     setEmail,
-    setChipsAmount,
   } = useContext(globalContext);
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -87,13 +86,12 @@ const useAuth = () => {
         },
       });
 
-      const { _id, name, email, chipsAmount } = res.data;
+      const { _id, name, email } = res.data;
 
       setIsLoggedIn(true);
       setId(_id);
       setUserName(name);
       setEmail(email);
-      setChipsAmount(chipsAmount);
     } catch (error) {
       localStorage.removeItem('token');
       const errorMessage = error.response?.data?.msg || 
@@ -110,7 +108,6 @@ const useAuth = () => {
     setId(null);
     setUserName(null);
     setEmail(null);
-    setChipsAmount(null);
   };
 
   return [isLoggedIn, login, logout, register, loadUser];

@@ -30,10 +30,15 @@ class Seat {
 
   raise(amount) {
     const reRaiseAmount = amount - this.bet;
-    if (reRaiseAmount > this.stack) return;
-
-    this.bet = amount;
-    this.stack -= reRaiseAmount;
+    if (reRaiseAmount > this.stack) {
+      // If all-in, bet the entire stack
+      const allInAmount = this.stack + this.bet;
+      this.bet = allInAmount;
+      this.stack = 0;
+    } else {
+      this.bet = amount;
+      this.stack -= reRaiseAmount;
+    }
     this.turn = false;
     this.lastAction = RAISE;
   }

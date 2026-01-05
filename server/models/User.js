@@ -16,10 +16,6 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  chipsAmount: {
-    type: Number,
-    default: config.INITIAL_CHIPS_AMOUNT,
-  },
   type: {
     type: Number,
     default: 0,

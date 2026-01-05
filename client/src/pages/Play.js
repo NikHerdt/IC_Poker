@@ -18,7 +18,8 @@ import { GameStateInfo } from '../components/game/GameStateInfo';
 import PokerCard from '../components/game/PokerCard';
 import contentContext from '../context/content/contentContext';
 
-const Play = ({ history }) => {
+const Play = ({ history, location }) => {
+  const isQuickGame = new URLSearchParams(location.search).get('mode') === 'quick';
   const { socket } = useContext(socketContext);
   const { openModal } = useContext(modalContext);
   const {
@@ -49,18 +50,27 @@ const Play = ({ history }) => {
         getLocalizedString('game_lost-connection-modal_btn-txt'),
         () => history.push('/'),
       );
-    socket && joinTable(1);
+    // Use table 2 for quick game, table 1 for regular tables
+    const tableId = isQuickGame ? 2 : 1;
+    socket && joinTable(tableId);
     return () => leaveTable();
     // eslint-disable-next-line
   }, [socket]);
 
   useEffect(() => {
-    currentTable &&
-      (currentTable.callAmount > currentTable.minBet
-        ? setBet(currentTable.callAmount)
-        : currentTable.pot > 0
-        ? setBet(currentTable.minRaise)
-        : setBet(currentTable.minBet));
+    if (currentTable) {
+      const minBet = currentTable.minBet || 0;
+      const callAmount = currentTable.callAmount || 0;
+      const minRaise = currentTable.minRaise || minBet * 2;
+      
+      if (callAmount > minBet) {
+        setBet(callAmount);
+      } else if (currentTable.pot > 0) {
+        setBet(minRaise);
+      } else {
+        setBet(minBet);
+      }
+    }
   }, [currentTable]);
 
   return (
@@ -93,19 +103,31 @@ const Play = ({ history }) => {
                     <strong>
                       {getLocalizedString('game_info_limit-lbl')}:{' '}
                     </strong>
-                    {new Intl.NumberFormat(
+                    ${new Intl.NumberFormat(
                       document.documentElement.lang,
+                      {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      }
                     ).format(currentTable.limit)}{' '}
                     |{' '}
                     <strong>
                       {getLocalizedString('game_info_blinds-lbl')}:{' '}
                     </strong>
-                    {new Intl.NumberFormat(
+                    ${new Intl.NumberFormat(
                       document.documentElement.lang,
+                      {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      }
                     ).format(currentTable.minBet)}{' '}
                     /{' '}
-                    {new Intl.NumberFormat(
+                    ${new Intl.NumberFormat(
                       document.documentElement.lang,
+                      {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      }
                     ).format(currentTable.minBet * 2)}
                   </Text>
                 </TableInfoWrapper>
@@ -128,6 +150,7 @@ const Play = ({ history }) => {
                   currentTable={currentTable}
                   isPlayerSeated={isPlayerSeated}
                   sitDown={sitDown}
+                  isQuickGame={isQuickGame}
                 />
               </PositionedUISlot>
               <PositionedUISlot top="-5%" scale="0.55" origin="top center">
@@ -136,6 +159,7 @@ const Play = ({ history }) => {
                   currentTable={currentTable}
                   isPlayerSeated={isPlayerSeated}
                   sitDown={sitDown}
+                  isQuickGame={isQuickGame}
                 />
               </PositionedUISlot>
               <PositionedUISlot
@@ -149,6 +173,7 @@ const Play = ({ history }) => {
                   currentTable={currentTable}
                   isPlayerSeated={isPlayerSeated}
                   sitDown={sitDown}
+                  isQuickGame={isQuickGame}
                 />
               </PositionedUISlot>
               <PositionedUISlot
@@ -162,6 +187,7 @@ const Play = ({ history }) => {
                   currentTable={currentTable}
                   isPlayerSeated={isPlayerSeated}
                   sitDown={sitDown}
+                  isQuickGame={isQuickGame}
                 />
               </PositionedUISlot>
               <PositionedUISlot
@@ -175,6 +201,7 @@ const Play = ({ history }) => {
                   currentTable={currentTable}
                   isPlayerSeated={isPlayerSeated}
                   sitDown={sitDown}
+                  isQuickGame={isQuickGame}
                 />
               </PositionedUISlot>
               <PositionedUISlot
@@ -203,7 +230,7 @@ const Play = ({ history }) => {
                     {!isPlayerSeated && (
                       <InfoPill>Sit down to join the game!</InfoPill>
                     )}
-                    {currentTable.winMessages.length > 0 && (
+                    {currentTable.winMessages && currentTable.winMessages.length > 0 && (
                       <InfoPill>
                         {
                           currentTable.winMessages[
@@ -220,7 +247,7 @@ const Play = ({ history }) => {
                 scale="0.60"
                 origin="center center"
               >
-                {currentTable.winMessages.length === 0 && (
+                {(!currentTable.winMessages || currentTable.winMessages.length === 0) && (
                   <GameStateInfo currentTable={currentTable} />
                 )}
               </PositionedUISlot>

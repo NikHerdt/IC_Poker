@@ -27,8 +27,14 @@ const {
 } = require('../pokergame/actions');
 const config = require('../config');
 
+// Table 1: Regular table with $100/$200 blinds (limit 10000)
+// Table 2: Quick game table with $0.50/$1 blinds (limit 200) for $10 buy-ins
+// Table 1: Regular table with $50/$100 blinds (limit 10000)
+// Table 2: Quick game table with $0.10/$0.20 blinds (limit 20) for $10 buy-ins
+// With limit 20: minBet = 20/200 = 0.10, so blinds = $0.10/$0.20
 const tables = {
-  1: new Table(1, 'Table 1', 10000),
+  1: new Table(1, 'Table 1', 10000),  // Regular table: $50/$100 blinds
+  2: new Table(2, 'Quick Game', 20), // Quick game: $0.10/$0.20 blinds, 50 BB for $10 buy-in
 };
 const players = {};
 
@@ -98,9 +104,16 @@ const init = (socket, io) => {
     const table = tables[tableId];
     const player = players[socket.id];
 
+    if (!table) {
+      console.error(`Table ${tableId} not found`);
+      return;
+    }
+
     table.addPlayer(player);
 
-    socket.emit(TABLE_JOINED, { tables: getCurrentTables(), tableId });
+    // Send full table object, not just summary
+    const fullTable = hideOpponentCards(table, socket.id);
+    socket.emit(TABLE_JOINED, { tables: getCurrentTables(), tableId, table: fullTable });
     socket.broadcast.emit(TABLES_UPDATED, getCurrentTables());
 
     if (
@@ -184,8 +197,6 @@ const init = (socket, io) => {
       table.sitPlayer(player, seatId, amount);
       let message = `${player.name} sat down in Seat ${seatId}`;
 
-      updatePlayerBankroll(player, -amount);
-
       broadcastToTable(table, message);
       if (table.activePlayers().length === 2) {
         initNewHand(table);
@@ -198,7 +209,6 @@ const init = (socket, io) => {
     const player = players[socket.id];
 
     table.rebuyPlayer(seatId, amount);
-    updatePlayerBankroll(player, -amount);
 
     broadcastToTable(table);
   });
@@ -212,7 +222,6 @@ const init = (socket, io) => {
 
     let message = '';
     if (seat) {
-      updatePlayerBankroll(player, seat.stack);
       message = `${player.name} left the table`;
     }
 
@@ -244,11 +253,6 @@ const init = (socket, io) => {
   });
 
   socket.on(DISCONNECT, () => {
-    const seat = findSeatBySocketId(socket.id);
-    if (seat) {
-      updatePlayerBankroll(seat.player, seat.stack);
-    }
-
     delete players[socket.id];
     removeFromTables(socket.id);
 
@@ -256,14 +260,7 @@ const init = (socket, io) => {
     socket.broadcast.emit(PLAYERS_UPDATED, getCurrentPlayers());
   });
 
-  async function updatePlayerBankroll(player, amount) {
-    const user = await User.findById(player.id);
-    user.chipsAmount += amount;
-    await user.save();
-
-    players[socket.id].bankroll += amount;
-    io.to(socket.id).emit(PLAYERS_UPDATED, getCurrentPlayers());
-  }
+  // Bankroll updates removed - no personal stash
 
   function findSeatBySocketId(socketId) {
     let foundSeat = null;

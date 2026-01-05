@@ -559,9 +559,25 @@ class Table {
     let seat = this.findPlayerBySocketId(socketId);
 
     if (seat) {
-      let addedToPot = amount - seat.bet;
+      // Validate the raise amount
+      const reRaiseAmount = amount - seat.bet;
+      
+      // Check if player has enough stack
+      if (reRaiseAmount > seat.stack) {
+        return null; // Invalid raise - not enough stack
+      }
+      
+      // Check if raise meets minimum requirements
+      const minRaiseAmount = this.callAmount 
+        ? this.callAmount + (this.callAmount - (seat.bet || 0))
+        : this.minBet;
+      
+      if (amount < minRaiseAmount && amount < seat.stack + seat.bet) {
+        return null; // Invalid raise - below minimum
+      }
 
       seat.raise(amount);
+      let addedToPot = amount - seat.bet;
 
       if (this.sidePots.length > 0) {
         this.sidePots[this.sidePots.length - 1].amount += addedToPot;

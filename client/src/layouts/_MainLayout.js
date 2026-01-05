@@ -14,7 +14,7 @@ import contentContext from '../context/content/contentContext';
 import modalContext from '../context/modal/modalContext';
 
 const MainLayout = ({ children, location }) => {
-  const { chipsAmount, userName } = useContext(globalContext);
+  const { userName } = useContext(globalContext);
   const { isLoggedIn, logout } = useContext(authContext);
   const { lang, setLang } = useContext(locaContext);
   const { staticPages } = useContext(contentContext);
@@ -27,7 +27,6 @@ const MainLayout = ({ children, location }) => {
     <div id="layout-wrapper">
       {!location.pathname.includes('/play') && (
         <Navbar
-          chipsAmount={chipsAmount}
           loggedIn={isLoggedIn}
           openModal={openModal}
           openNavMenu={openNavMenu}
@@ -39,7 +38,6 @@ const MainLayout = ({ children, location }) => {
           onClose={closeNavMenu}
           userName={userName}
           logout={logout}
-          chipsAmount={chipsAmount}
           lang={lang}
           setLang={setLang}
           openModal={openModal}
