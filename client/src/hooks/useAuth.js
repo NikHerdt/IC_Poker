@@ -43,7 +43,12 @@ const useAuth = () => {
         await loadUser(token);
       }
     } catch (error) {
-      alert(error);
+      const errorMessage = error.response?.data?.errors?.[0]?.msg || 
+                          error.response?.data?.msg || 
+                          error.message || 
+                          'Registration failed. Please try again.';
+      alert(errorMessage);
+      console.error('Registration error:', error.response?.data || error);
     }
     setIsLoading(false);
   };
@@ -64,7 +69,12 @@ const useAuth = () => {
         await loadUser(token);
       }
     } catch (error) {
-      alert(error);
+      const errorMessage = error.response?.data?.errors?.[0]?.msg || 
+                          error.response?.data?.msg || 
+                          error.message || 
+                          'Login failed. Please try again.';
+      alert(errorMessage);
+      console.error('Login error:', error.response?.data || error);
     }
     setIsLoading(false);
   };
@@ -85,8 +95,12 @@ const useAuth = () => {
       setEmail(email);
       setChipsAmount(chipsAmount);
     } catch (error) {
-      localStorage.removeItem(token);
-      alert(error);
+      localStorage.removeItem('token');
+      const errorMessage = error.response?.data?.msg || 
+                          error.message || 
+                          'Failed to load user.';
+      console.error('Load user error:', error.response?.data || error);
+      // Don't alert on loadUser errors as they might be expected
     }
   };
 

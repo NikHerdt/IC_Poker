@@ -194,16 +194,18 @@ export const Seat = ({ currentTable, seatNumber, isPlayerSeated, sitDown }) => {
             origin="center right"
           >
             <Hand>
-              {seat.hand &&
+              {seat.hand && seat.hand.length > 0 ? (
                 seat.hand.map((card, index) => (
                   <PokerCard
-                    key={index}
+                    key={`${seat.id}-${index}-${card.suit}-${card.rank}`}
                     card={card}
                     width="5vw"
                     maxWidth="60px"
                     minWidth="30px"
+                    index={index}
                   />
-                ))}
+                ))
+              ) : null}
             </Hand>
           </PositionedUISlot>
 

@@ -1,7 +1,9 @@
 import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 
-const Button = styled.button`
+const Button = styled.button.withConfig({
+  shouldForwardProp: (prop) => !['primary', 'secondary', 'small', 'large', 'fullWidth', 'fullWidthOnMobile'].includes(prop),
+})`
   display: inline-flex;
   align-items: center;
   justify-content: center;

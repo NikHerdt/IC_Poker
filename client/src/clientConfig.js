@@ -6,7 +6,7 @@ const config = {
   socketURI:
     process.env.NODE_ENV === 'production'
       ? process.env.REACT_APP_SERVER_URI
-      : `http://${window.location.hostname}:5000/`,
+      : `http://${window.location.hostname}:5001/`,
 };
 
 export default config;

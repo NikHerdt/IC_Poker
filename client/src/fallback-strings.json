@@ -1,0 +1,294 @@
+{
+  "main_page-salutation": {
+    "en": "Welcome back,",
+    "de": "Willkommen zurück,"
+  },
+  "main_page-quick_game": {
+    "en": "Quick Game",
+    "de": "Jetzt Spielen"
+  },
+  "main_page-join_table": {
+    "en": "Join Table",
+    "de": "Suche Tisch"
+  },
+  "main_page-open_shop": {
+    "en": "Shop",
+    "de": "Shop"
+  },
+  "main_page-open_rules": {
+    "en": "Rules",
+    "de": "Spiel-Regeln"
+  },
+  "main_page-modal_heading": {
+    "en": "Coming Soon",
+    "de": "Bald verfügbar"
+  },
+  "main_page-modal_text": {
+    "en": "This feature will be available soon! Check back later!",
+    "de": "Diese Funktion wird in Kürze verfügbar sein! Schauen Sie später wieder vorbei!"
+  },
+  "main_page-modal_button_text": {
+    "en": "Close",
+    "de": "Schließen"
+  },
+  "navbar-register_btn": {
+    "en": "Register",
+    "de": "Registrieren"
+  },
+  "navbar-login_btn": {
+    "en": "Login",
+    "de": "Einloggen"
+  },
+  "navbar-buychips_btn": {
+    "en": "Buy Chips",
+    "de": "Chips Kaufen"
+  },
+  "landing-primary_headline": {
+    "en": "Join the world’s most <span style=\"color: #24516a\">classy<br />online poker</span> experience!\n",
+    "de": "Die <span style=\"color: #24516a\">stilvollste<br />Online-Pokererfahrung</span> der Welt!"
+  },
+  "landing-secondary_headline": {
+    "en": "You receive <span style=\"color: #24516a\">30.000 free chips</span> on registration.",
+    "de": "Melden Sie sich jetzt an und Sie erhalten <span style=\"color: #24516a\">30.000 Gratis Chips</span>."
+  },
+  "shop-coming_soon-modal_heading": {
+    "en": "Shop",
+    "de": "Shop"
+  },
+  "shop-coming_soon-modal_text": {
+    "en": "We're currently working hard to get the shop up and running!\n\nSoon you'll be able to buy chip packages for competitive prices to enhance your gaming experience.\n",
+    "de": "Wir arbeiten derzeit hart daran, den Shop zum Laufen zu bringen!\n\nIn Kürze können Sie Chip-Pakete zu wettbewerbsfähigen Preisen kaufen, um Ihr Spielerlebnis zu verbessern.\n"
+  },
+  "shop-coming_soon-modal_btn_text": {
+    "en": "Close",
+    "de": "Schließen"
+  },
+  "navmenu-menu_item-lobby_txt": {
+    "en": "Go to Lobby",
+    "de": "Zurück zur Lobby"
+  },
+  "navmenu-menu_item-dashboard_txt": {
+    "en": "My Dashboard",
+    "de": "Dashboard"
+  },
+  "navmenu-menu_item-news_txt": {
+    "en": "Latest News",
+    "de": "Neuigkeiten"
+  },
+  "navmenu-logout_btn": {
+    "en": "Logout",
+    "de": "Ausloggen"
+  },
+  "cookiebanner-text": {
+    "en": "This website uses cookies. If you continue to use the website, we assume your consent.",
+    "de": "Diese Webseite nutzt Cookies. Wenn Sie diese Seite weiter nutzen, gehen wir von Ihrer Zustimmung aus."
+  },
+  "cookiebanner-confirm_btn_txt": {
+    "en": "Confirm",
+    "de": "OK"
+  },
+  "cookiebanner-info_btn_txt": {
+    "en": "More Info",
+    "de": "Info"
+  },
+  "footer-lang_selection_txt": {
+    "en": "Select Language",
+    "de": "Sprache auswählen"
+  },
+  "footer-copyright_txt": {
+    "en": "© 2020 Vintage Poker. All rights reserved.",
+    "de": "© 2020 Vintage Poker. Alle Rechte vorbehalten."
+  },
+  "static_page-back_btn_txt": {
+    "en": "Back to Home",
+    "de": "Zurück zur Homepage"
+  },
+  "notfound-heading_txt": {
+    "en": "Oh noes! A big ol' 404 error!",
+    "de": "Oh nein! Ein wilder Fehler 404!"
+  },
+  "notfound-content_txt": {
+    "en": "This page doesn't exist! Nothing to see here…",
+    "de": "Diese Seite existiert leider nicht! Hier gibt es nichts zu sehen..."
+  },
+  "dashboard-nickname_lbl_txt": {
+    "en": "Nickname",
+    "de": "Nickname"
+  },
+  "dashboard-nickname_btn_txt": {
+    "en": "Change Nickname",
+    "de": "Nickname ändern"
+  },
+  "dashboard-email_lbl_txt": {
+    "en": "E-mail",
+    "de": "E-mail"
+  },
+  "dashboard-email_btn_txt": {
+    "en": "Change E-mail",
+    "de": "E-mail ändern"
+  },
+  "dashboard-reset_pw_btn_text": {
+    "en": "Reset Password",
+    "de": "Passwort zurücksetzen"
+  },
+  "dashboard-delete_acct_btn_text": {
+    "en": "Delete Account",
+    "de": "Account löschen"
+  },
+  "login_page-header_txt": {
+    "en": "Login",
+    "de": "Einloggen"
+  },
+  "login_page-email_lbl_txt": {
+    "en": "E-mail",
+    "de": "E-mail"
+  },
+  "login_page-password_lbl_txt": {
+    "en": "Password",
+    "de": "Passwort"
+  },
+  "login_page-cta_btn_txt": {
+    "en": "Log In",
+    "de": "Jetzt Einloggen"
+  },
+  "login_page-no_account_txt": {
+    "en": "I do not have an account yet!",
+    "de": "Ich habe noch keinen Account!"
+  },
+  "registration_page-header_txt": {
+    "en": "Registration",
+    "de": "Registrieren"
+  },
+  "registration_page-nickname_lbl_txt": {
+    "en": "Nickname",
+    "de": "Spielername"
+  },
+  "registration_page-email_lbl_txt": {
+    "en": "E-mail",
+    "de": "E-mail"
+  },
+  "registration_page-password_lbl_txt": {
+    "en": "Password",
+    "de": "Passwort"
+  },
+  "registration_page-cta_btn_txt": {
+    "en": "Complete Registration",
+    "de": "Registrierung abschließen"
+  },
+  "registration_page-already_account_txt": {
+    "en": "I already have an account!",
+    "de": "Ich habe bereits einen Account!"
+  },
+  "service_worker-update_available": {
+    "en": "A new update is available. Click the button below to refresh the app and get the latest and greatest stuff!",
+    "de": "Ein neues Update ist verfügbar. Klicken Sie auf die Schaltfläche unten, um die App zu aktualisieren und die neuesten und besten Inhalte zu erhalten!"
+  },
+  "service_worker-update_headline": {
+    "en": "Update Available",
+    "de": "Update verfügbar"
+  },
+  "service_worker-update_confirm_btn_txt": {
+    "en": "Update Now & Refresh",
+    "de": "Update installieren"
+  },
+  "game_leave-table-btn": {
+    "en": "Leave Table",
+    "de": "Tisch verlassen"
+  },
+  "game_info_limit-lbl": {
+    "en": "Limit",
+    "de": "Limit"
+  },
+  "game_info_blinds-lbl": {
+    "en": "Blinds",
+    "de": "Einsätze"
+  },
+  "game_sitdown-btn": {
+    "en": "Sit Down",
+    "de": "Hinsetzen"
+  },
+  "game_buyin-modal_header": {
+    "en": "Buy In",
+    "de": "Einkauf"
+  },
+  "game_buyin-modal_confirm": {
+    "en": "Buy into game",
+    "de": "Ins Spiel einkaufen"
+  },
+  "game_buyin-modal_cancel": {
+    "en": "No thanks!",
+    "de": "Nein danke!"
+  },
+  "game_rebuy-modal_header": {
+    "en": "Rebuy",
+    "de": "Wiedereinkauf"
+  },
+  "game_rebuy-modal_confirm": {
+    "en": "Rebuy into game",
+    "de": "Ins Spiel zurückkaufen"
+  },
+  "game_rebuy-modal_cancel": {
+    "en": "No thanks!",
+    "de": "Nein danke!"
+  },
+  "game_table_empty-seat": {
+    "en": "Empty\nSeat",
+    "de": "Leerer\nSitz"
+  },
+  "game_ui_stand-up": {
+    "en": "Stand Up",
+    "de": "Aufstehen"
+  },
+  "game_ui_fold": {
+    "en": "Fold",
+    "de": "Passen"
+  },
+  "game_ui_check": {
+    "en": "Check",
+    "de": "Checken"
+  },
+  "game_ui_call": {
+    "en": "Call",
+    "de": "Mitgehen"
+  },
+  "game_ui_all-in": {
+    "en": "All In",
+    "de": "All In"
+  },
+  "game_ui_bet": {
+    "en": "Bet",
+    "de": "Einsatz"
+  },
+  "game_state-info_wait": {
+    "en": "Waiting…",
+    "de": "Warte…"
+  },
+  "game_rotate-device-prompt": {
+    "en": "Please turn your phone into landscape mode to play!",
+    "de": "Bitte schalten Sie Ihr Telefon zum Spielen in den Querformatmodus!"
+  },
+  "game_lost-connection-modal_header": {
+    "en": "No connection!",
+    "de": "Keine Verbindung!"
+  },
+  "game_lost-connection-modal_text": {
+    "en": "Could not connect / lost connection to game server! Please try again  later!",
+    "de": "Verbindung zum Spieleserver konnte nicht hergestellt werden / Verbindung unterbrochen! Bitte versuchen Sie es später noch einmal!"
+  },
+  "game_lost-connection-modal_btn-txt": {
+    "en": "Close",
+    "de": "Schließen"
+  },
+  "global_get-free-chips-modal_header": {
+    "en": "Refuel",
+    "de": "Auftanken"
+  },
+  "global_get-free-chips-modal_content": {
+    "en": "Oh noes, it seems like you're running out of chips! But don't worry, here's a fresh batch of chips for you so you can continue playing!",
+    "de": "Oh nein, es scheint, als würden Ihnen die Chips ausgehen! Aber keine Sorge, hier ist eine neue Charge Chips für Sie, damit Sie weiterspielen können!"
+  },
+  "global_get-free-chips-modal_btn-txt": {
+    "en": "Get Your Free Chips",
+    "de": "Gratis Chips Holen"
+  }
+}
