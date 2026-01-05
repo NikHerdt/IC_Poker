@@ -1,8 +1,8 @@
-# Hawkeye Poker
+# IC poker
 
 > **Note:** This repository is a personal fork/editing of the original Vintage Poker project by [Patrick Obermeier](https://github.com/Pobermeier). The original repository can be found at [https://github.com/Pobermeier/vintage-poker](https://github.com/Pobermeier/vintage-poker). This version has been modified for personal use and learning purposes.
 
-Hawkeye Poker is a full-stack poker platform built with the MERN-stack, where a user can create an account and play poker on a predetermined set of tables (differ in amount of blinds & buy-ins).
+IC poker is a full-stack poker platform built with the MERN-stack, where a user can create an account and play poker on a predetermined set of tables (differ in amount of blinds & buy-ins).
 
 The server part of the application is a Node- / Express-Backend. The Frontend is a React application. Non Real-Time communication between front- & backend is handled via a REST-API. In-game logic-related communications & chat is handled via web sockets / Socket.io.
 

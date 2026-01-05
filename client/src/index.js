@@ -4,7 +4,7 @@ import 'raf/polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import logoWithText from './assets/img/logo-text@2x.png';
+import icLogo from './assets/img/ic_logo.png';
 import Providers from './context/Providers';
 
 const rootElement = document.getElementById('root');
@@ -19,7 +19,7 @@ if (
   // Show maintenance mode content if proper env vars are set
   const template = `
     <div style="width: 100%; padding: 0 1.5rem; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; overflow: hidden; background-color: hsl(43, 40%, 86%);">
-      <img style="width: 100%; max-width: 320px;" src=${logoWithText} alt="Hawkeye Poker">
+      <img style="width: 100%; max-width: 320px;" src=${icLogo} alt="IC poker">
       <p style="font-size: 1.5rem; font-family: 'Roboto', sans-serif; color: hsl(36, 71%, 3%); text-align: center; margin-top: 3rem; padding: 1rem 2rem; background-color: hsl(49, 63%, 92%); border-radius: 2rem;">The website is currently in maintenance mode.</p>
     </div>
   `;

@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import Hider from '../components/layout/Hider';
 import illustrationMobile from '../assets/img/main-illustration-mobile@2x.png';
 import illustrationDesktop from '../assets/img/main-illustration-desktop@2x.png';
+import bgImage from '../assets/img/bg.jpg';
 import styled from 'styled-components';
 import useScrollToTopOnPageLoad from '../hooks/useScrollToTopOnPageLoad';
 import contentContext from '../context/content/contentContext';
@@ -18,15 +19,25 @@ const MarketingHeadline = styled(Heading)`
   }
 `;
 
+const LandingWrapper = styled.div`
+  min-height: 100vh;
+  background-image: url(${bgImage});
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+`;
+
 const Landing = () => {
   const { getLocalizedString } = useContext(contentContext);
   useScrollToTopOnPageLoad();
 
   return (
-    <Container fullHeight contentCenteredMobile padding="4rem 2rem 2rem 2rem">
+    <LandingWrapper>
+      <Container fullHeight contentCenteredMobile padding="4rem 2rem 2rem 2rem">
       <CenteredBlockWithAnimation>
         <Hider hideOnDesktop>
-          <MobileIllustration src={illustrationMobile} alt="Hawkeye Poker" />
+          <MobileIllustration src={illustrationMobile} alt="IC poker" />
         </Hider>
         <Markdown>
           <MarketingHeadline
@@ -66,9 +77,10 @@ const Landing = () => {
         </Wrapper>
       </CenteredBlockWithAnimation>
       <Hider hideOnMobile>
-        <DesktopIllustration src={illustrationDesktop} alt="Hawkeye Poker" />
+        <DesktopIllustration src={illustrationDesktop} alt="IC poker" />
       </Hider>
     </Container>
+    </LandingWrapper>
   );
 };
 
